@@ -1,0 +1,15 @@
+@use '../util' as *;
+
+
+.guess {
+    display: grid;
+    grid-template-columns: repeat(5, fr);
+    gap: rem(3);
+    width: rem(300);
+
+
+    &__tile {
+        border: rem(2) solid hsl(0, 0%, 46%);
+    }
+}
+
