@@ -4,6 +4,17 @@
 
 6 tries to guess a 5-letter word
 
+### Making a guess 
+
+Detect keypresses
+    - if keypress is a letter
+      - update "letters" attribute
+        - update the tile markup based on "letters" value
+    - if keypress is backspace
+      - delete last letter in "letters"
+        - update tile markup based on "letters" 
+
+
 Typing in the letter will display the letter in the tile
 Backspace will delete the letters
 Enter will submit guess
