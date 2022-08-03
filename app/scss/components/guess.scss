@@ -18,5 +18,24 @@
         font-size: rem(32);
         font-weight: 600;
     }
+    
+    .has-letter {
+        border-color: hsl(0, 0%, 40%);
+      }
+    
+      .correct {
+        background-color: hsl(120, 100%, 28%);
+        border-color: hsl(120, 100%, 28%);
+      }
+    
+      .present {
+        background-color: hsl(49, 69%, 47%);
+        border-color: hsl(49, 69%, 47%);
+      }
+    
+      .absent {
+        background-color: hsl(0, 0%, 35%);
+        border-color: hsl(0, 0%, 35%);
+      }
 }
 
