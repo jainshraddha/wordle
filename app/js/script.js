@@ -93,7 +93,6 @@ const submitGuess = () => {
 
 
 const checkLetter = (position) => {
-  //console.log('checkLetter');
   let guessedLetter = currentGuess.dataset.letters.charAt(position);
   let solutionLetter = solutionWord.charAt(position);
 
@@ -125,7 +124,17 @@ const flipTile = (tileNum, state) => {
   let tile = document.querySelector(
     '#guess' + currentGuessCount + 'Tile' + tileNum
   );
-  tile.classList.add(state);
+  tile.classList.add('flip-in');
+  setTimeout(() => {
+    tile.classList.add(state);
+  }, 250);
+  setTimeout(() => {
+    tile.classList.remove('flip-in');
+    tile.classList.add('flip-out');
+  }, 250);
+  setTimeout(() => {
+    tile.classList.remove('flip-out');
+  }, 1500);
 };
 
 const checkWin = () =>{
