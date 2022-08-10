@@ -5,19 +5,20 @@ Detect keypresses
         - update the tile based on "letters" value
     - if keypress is backspace
       - delete last letter in "letters"
-        - update tile based on "letters" 
+        - update tile based on "letters"
 */
 let words = ['apple', 'baker', 'store', 'horse', 'speak', 'clone', 'bread'];
 let solutionWord = '';
 
 const chooseWord = () => {
   // choose random item from words array
-  let randomItem = Math.floor(Math.random() * (words.length - 1)) + 1;
+  let randomItem = Math.floor(Math.random() * (words.length));
+  console.log(randomItem)
   solutionWord = words[randomItem];
 };
 
 
-document.addEventListener("DOMContentLoaded", () => {  
+document.addEventListener("DOMContentLoaded", () => {
 chooseWord();
 const lettersPattern = /[a-z]/;
 let currentGuessCount = 1;
@@ -27,13 +28,13 @@ let currentGuess = document.querySelector("#guess" + currentGuessCount);
 document.addEventListener('keydown', (e) => {
     const key = e.key;
     if (currentGuessCount < 7){
-        if (key.length == 1 && 
+        if (key.length == 1 &&
             lettersPattern.test(key) &&
             currentGuess.dataset.letters.length < 5
             ) {
                updateLetters(key);
-               
-            } else if (key == 'Backspace') {
+
+            } else if (key == 'Backspace' && currentGuess.dataset.letters != '') {
                 deleteFromLetters();
             } else if (key == 'Enter' && currentGuess.dataset.letters.length == 5){
               submitGuess();
@@ -45,14 +46,10 @@ const deleteFromLetters = () => {
     let oldLetters = currentGuess.dataset.letters;
     let newLetters = oldLetters.slice(0, -1);
     currentGuess.dataset.letters = newLetters;
-    console.log("current guess: "+currentGuess.dataset.letters);
     deleteFromTiles(oldLetters.length);
 }
 
-// Backspace -- Delete last tile markup
 const deleteFromTiles = (tileNumber) => {
-  // remove markup from last tile
-  //console.log('deleteFromTiles = ' + tileNumber);
   let currentTile = document.querySelector(
     '#guess' + currentGuessCount + 'Tile' + tileNumber
   );
@@ -60,21 +57,16 @@ const deleteFromTiles = (tileNumber) => {
   currentTile.classList.remove('has-letter');
 };
 
-
-
 const updateLetters = (letter) => {
     let oldLetters = currentGuess.dataset.letters;
     let newLetters = oldLetters + letter;
     let currentTile = newLetters.length;
     currentGuess.dataset.letters = newLetters;
-    console.log("current guess: "+currentGuess.dataset.letters);
     updateTiles(currentTile, letter);
   };
 
-
 //Update tile
 const updateTiles = (tileNumber, letter) => {
-  //console.log('updateTiles(' + tileNumber, letter + ')');
   let currentTile = document.querySelector(
     '#guess' + currentGuessCount + 'Tile' + tileNumber
   );
@@ -83,7 +75,6 @@ const updateTiles = (tileNumber, letter) => {
 };
 
 const submitGuess = () => {
-  //console.log('submit guess');
   for (let i = 0; i < 5; i++) {
     setTimeout(() => {
       revealTile(i, checkLetter(i));
@@ -102,7 +93,6 @@ const checkLetter = (position) => {
   else {
     return solutionWord.includes(guessedLetter) ? 'present' : 'absent';
   }
-
 };
 
 
@@ -137,19 +127,41 @@ const flipTile = (tileNum, state) => {
   }, 1500);
 };
 
+
+const jumpTiles = () => {
+  for (let i = 0; i < 5; i++) {
+    setTimeout(() => {
+      let currentTile = document.querySelector(
+        '#guess' + currentGuessCount + 'Tile' + (i + 1)
+      );
+      currentTile.classList.add('jump');
+    }, i * 200);
+  }
+};
+
+
+
 const checkWin = () =>{
 
   if (solutionWord == currentGuess.dataset.letters){
-     console.log("you won!!")
+    setTimeout(() => {
+      jumpTiles();
+    }, 500);
   } else {
     currentGuessCount += 1;
     currentGuess = document.querySelector('#guess'+ currentGuessCount);
-    console.log("no, that guess is incorrect");
     if (currentGuessCount == 7){
-      console.log("you lost, the solution is " + solutionWord);
+      setTimeout(() => {
+        showSolution();
+      }, 500);
     }
   }
 
 };
+
+const showSolution = () => {
+  alert('Better luck next time. The solution was: ' + solutionWord);
+};
+
 
 })
